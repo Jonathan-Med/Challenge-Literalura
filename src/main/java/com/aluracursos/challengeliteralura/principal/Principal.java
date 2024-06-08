@@ -150,12 +150,22 @@ public class Principal {
 
     private void buscarLibroPorTitulo(){
         System.out.print("Ingrese el titulo del Libro que desea buscar: ");
-        String tituloLibro = teclado.nextLine();
-        Libro libroBD = libroRepository.buscarLibroPorTitulo(tituloLibro);
-        if (libroBD != null)
-            System.out.println(libroBD);
-        else{
-            System.out.println("Titulo no encontrado.\n");
+        try {
+            String tituloLibro = teclado.nextLine();
+            Libro libroBD = libroRepository.buscarLibroPorTitulo(tituloLibro);
+            if (libroBD != null && !Objects.equals(tituloLibro, " "))
+                System.out.println(libroBD);
+            else{
+                System.out.println("Titulo no encontrado.\n");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("Idioma no valido.\n");
+            teclado.nextLine();
+        } catch (IncorrectResultSizeDataAccessException e){
+            System.out.println("La opción no es válida");
+            teclado.nextLine();
         }
     }
 
